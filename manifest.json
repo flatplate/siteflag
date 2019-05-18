@@ -6,10 +6,9 @@
 
   "description": "Lets you take notes for websites.",
 
-
   "content_scripts": [
     {
-      "matches": ["*"],
+      "matches": ["*://*/*"],
       "js": ["assets/jquery-3.4.1.min.js", "siteflag.js"]
     }
   ]
