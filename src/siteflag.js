@@ -14,13 +14,24 @@
 console.log("Suck a dick");
 
 function closeButtonOnClick(event) {
-        $("#flagBox").remove();
+    $("#flagBox").remove();
 }
 
+function scrollEffect(event) {
+    window.setTimeout(function() {
+        $("#flagBox").remove();
+    }, 60);
+    
+}
 
 var timeoutId = null;
 
 $(document).ready(function() {
+    $(window).click(function() {
+        closeButtonOnClick(null);
+    });
+    $(window).on("scroll",scrollEffect);    
+    
     console.log("Suck a dick");
     $("a").on('mouseover',function(e) {
         $this = $(this);
@@ -38,7 +49,7 @@ $(document).ready(function() {
                 
                 console.log(pageX);
                 console.log(pageY);
-            
+                
                 var boxElem = $("<div id='flagBox'></div>")
                 //var boxElem = $(this).append("div");
                 boxElem.css("padding", "20px");
@@ -56,12 +67,18 @@ $(document).ready(function() {
                 headerElem.on("click", null);
                 boxElem.append(headerElem);
                 boxElem.css("z-index", "100");
+                boxElem.click(function(event){
+                    event.stopPropagation();
+                });
                 var buttonElem = $("<button id='closeButton'>x</button>");
                 buttonElem.on("click", closeButtonOnClick);
+                buttonElem.css("position", "absolute");
+                buttonElem.css("right", "10px");
+                buttonElem.css("top", "5px");
                 boxElem.append(buttonElem);
                 $("body").append(boxElem);
             }, 500);
-
+            
         }
     });
     
@@ -71,5 +88,5 @@ $(document).ready(function() {
             timeoutId = null;
         }
     });
-
+    
 })
