@@ -9,8 +9,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["assets/js/jquery-3.4.1.min.js", "src/siteflag.js"],
-      "css": ["assets/css/materialize.min.css"]
+      "js": ["assets/jquery-3.4.1.min.js", "src/siteflag.js"]
     }
   ]
 
