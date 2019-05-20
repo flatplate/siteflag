@@ -14,7 +14,20 @@
 console.log("Suck a dick");
 
 function closeButtonOnClick(event) {
-    $("#flagBox").remove();
+    var flagBox = $("#flagBox");
+    var url = flagBox.children("h3").text();
+    var comment = $.trim($("#siteFlagTextArea").val());
+
+    console.log(url);
+    console.log(comment);
+    
+    if (url && comment) {
+        console.log("update");
+        flagDB.updateSiteNote(url, comment, function(result) {});
+        console.log("update2");
+    }
+    console.log("After if ");
+    flagBox.remove();
 }
 
 function scrollEffect(event) {
@@ -27,12 +40,15 @@ function scrollEffect(event) {
 var timeoutId = null;
 
 $(document).ready(function() {
+    flagDB.open(function() {});
+
     $(window).click(function() {
         closeButtonOnClick(null);
     });
+
     $(window).on("scroll",scrollEffect);    
-    
-    console.log("Suck a dick");
+    console.log("Suck a dick11");
+
     $("a").on('mouseover',function(e) {
         $this = $(this);
         if (!$this.attr('href').startsWith("http")){
@@ -66,7 +82,7 @@ $(document).ready(function() {
                 boxElem.css("tansition", "0.3s");
                 boxElem.css("padding", "10px")
                 
-
+                var url = $this.attr('href').split("/")[2];
                 var headerElem = $("<h3>" + $this.attr('href').split("/")[2] + "</h3>");
                 
                 headerElem.on("click", null);
@@ -75,7 +91,7 @@ $(document).ready(function() {
                 boxElem.click(function(event){
                     event.stopPropagation();
                 });
-                var textArea = $("<textarea id='textArea' rows='4' cols='60'></textarea>");
+                var textArea = $("<textarea id='siteFlagTextArea' rows='4' cols='60'></textarea>");
                 textArea.css("float", "bottom");
                 textArea.css("margin-top", "4px");
                 textArea.css("resize", "none");
@@ -89,9 +105,12 @@ $(document).ready(function() {
                 buttonElem.css("top", "5px");
                 boxElem.append(buttonElem);
                 */
-               boxElem.append(textArea);
+                boxElem.append(textArea);
                 $("body").append(boxElem);
-
+                flagDB.getSiteNote(url, function(comment) {
+                    textArea.text(comment);
+                });
+                
             }, 500);
             
         }
