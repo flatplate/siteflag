@@ -11,22 +11,15 @@
 // boxElem.css("z-index", "-1");
 
 
-console.log("Suck a dick");
 
 function closeButtonOnClick(event) {
     var flagBox = $("#flagBox");
     var url = flagBox.children("h3").text();
     var comment = $.trim($("#siteFlagTextArea").val());
 
-    console.log(url);
-    console.log(comment);
-    
     if (url && comment) {
-        console.log("update");
         flagDB.updateSiteNote(url, comment, function(result) {});
-        console.log("update2");
     }
-    console.log("After if ");
     flagBox.remove();
 }
 
@@ -46,8 +39,7 @@ $(document).ready(function() {
         closeButtonOnClick(null);
     });
 
-    $(window).on("scroll",scrollEffect);    
-    console.log("Suck a dick11");
+    $(window).on("scroll",scrollEffect);
 
     $("a").on('mouseover',function(e) {
         $this = $(this);
@@ -58,13 +50,9 @@ $(document).ready(function() {
             timeoutId = window.setTimeout(function() {
                 closeButtonOnClick(null);
                 timeoutId = null;
-                console.log("Suck a dick");
                 e = e || window.event;
                 var pageX = e.clientX;
                 var pageY = e.clientY;
-                
-                console.log(pageX);
-                console.log(pageY);
                 
                 var boxElem = $("<div id='flagBox'></div>")
                 //var boxElem = $(this).append("div");
