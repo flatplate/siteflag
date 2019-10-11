@@ -48,8 +48,8 @@ $(document).ready(function() {
                 boxElem.css("left", pageX + "px");
                 boxElem.css("top", pageY + "px");
                 boxElem.css("box-shadow", "0 4px 8px 0 rgba(0,0,0,0.2)");
-                boxElem.css("tansition", "0.3s");
-                boxElem.css("padding", "10px")
+                boxElem.css("transition", "0.3s");
+                boxElem.css("padding", "10px");
                 
                 var url = $this.attr('href').split("/")[2];
                 var headerElem = $("<h3>" + $this.attr('href').split("/")[2] + "</h3>");
