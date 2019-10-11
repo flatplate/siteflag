@@ -15,6 +15,12 @@
         "src/siteflag.js"
       ]
     }
-  ]
+  ],  
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/icon_16.png",
+      "32": "icons/icon_32.png"
+    }
+  }
 
 }
