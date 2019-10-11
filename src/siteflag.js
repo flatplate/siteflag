@@ -1,17 +1,3 @@
-// var boxElem = $("</div>");
-// boxElem.css("padding", "20px");
-// boxElem.css("background-color", "gray");
-// boxElem.css("position", "relative");
-// boxElem.css("height", "200px");
-// boxElem.css("width", "500px");
-// boxElem.css("right", "-20px");
-// boxElem.css("top", "-50px");
-// boxElem.text("Suck a dick.");
-// boxElem.attr("id", "flagBox");
-// boxElem.css("z-index", "-1");
-
-
-
 function closeButtonOnClick(event) {
     var flagBox = $("#flagBox");
     var url = flagBox.children("h3").text();
@@ -55,15 +41,10 @@ $(document).ready(function() {
                 var pageY = e.clientY;
                 
                 var boxElem = $("<div id='flagBox'></div>")
-                //var boxElem = $(this).append("div");
                 boxElem.css("padding", "20px");
                 boxElem.css("background-color", "white");
-                //boxElem.css("border-width", "2px");
                 boxElem.css("border", "1px solid #E8E8E8");
-                //boxElem.css("border-color", "black");
                 boxElem.css("position", "fixed");
-                //boxElem.css("height", "110px");
-                //boxElem.css("width", "500px");
                 boxElem.css("left", pageX + "px");
                 boxElem.css("top", pageY + "px");
                 boxElem.css("box-shadow", "0 4px 8px 0 rgba(0,0,0,0.2)");
@@ -85,14 +66,7 @@ $(document).ready(function() {
                 textArea.css("resize", "none");
                 textArea.css("font-family", "Arial, Helvetica, sans-serif");
                 textArea.attr("placeholder", "Type here.....");
-                /*
-                var buttonElem = $("<button id='closeButton'>x</button>");
-                buttonElem.on("click", closeButtonOnClick);
-                buttonElem.css("position", "absolute");
-                buttonElem.css("right", "10px");
-                buttonElem.css("top", "5px");
-                boxElem.append(buttonElem);
-                */
+
                 boxElem.append(textArea);
                 $("body").append(boxElem);
                 flagDB.getSiteNote(url, function(comment) {
