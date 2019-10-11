@@ -4,7 +4,7 @@ function closeButtonOnClick(event) {
     var comment = $.trim($("#siteFlagTextArea").val());
 
     if (url && comment) {
-        flagDB.updateSiteNote(url, comment, function(result) {});
+        var sending = browser.runtime.sendMessage({url: url, comment: comment, type: "update"});
     }
     flagBox.remove();
 }
@@ -19,7 +19,6 @@ function scrollEffect(event) {
 var timeoutId = null;
 
 $(document).ready(function() {
-    flagDB.open(function() {});
 
     $(window).click(function() {
         closeButtonOnClick(null);
@@ -52,7 +51,7 @@ $(document).ready(function() {
                 boxElem.css("padding", "10px");
                 
                 var url = $this.attr('href').split("/")[2];
-                var headerElem = $("<h3>" + $this.attr('href').split("/")[2] + "</h3>");
+                var headerElem = $("<h3>" + url + "</h3>");
                 
                 headerElem.on("click", null);
                 boxElem.append(headerElem);
@@ -69,10 +68,16 @@ $(document).ready(function() {
 
                 boxElem.append(textArea);
                 $("body").append(boxElem);
-                flagDB.getSiteNote(url, function(comment) {
-                    textArea.text(comment);
+
+
+                var query = browser.runtime.sendMessage({
+                    url: url, 
+                    type: "get"
                 });
-                
+                query.then(function(value) {
+                    console.log(value);
+                    textArea.text(value.comment);
+                });
             }, 500);
             
         }

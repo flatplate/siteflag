@@ -2,7 +2,7 @@ var datastore = null;
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
 if (!window.indexedDB) {
-    window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+    window.alert("Your browser doesn't support a stable version of IndexedDB. Most features will not be available.");
 }
 
 var db = null;
@@ -26,7 +26,11 @@ var flagDB = (function() {
     }
 
     flagDBTemp.getSiteNote = function(url, callback) {
-        if (datastore === null) callback(null);
+        console.log(url);
+        if (datastore === null || url === null || !url) {
+            callback(null);
+            return;
+        }
         var transaction = datastore.transaction(["site"]);
         var objectStore = transaction.objectStore("site");
 
@@ -34,6 +38,7 @@ var flagDB = (function() {
 
 
         request.onsuccess = function(event) {
+            console.log(request.result.comment);
             callback(request.result.comment);
         };
     }
