@@ -6,14 +6,14 @@ function closeButtonOnClick(event) {
     if (url && comment) {
         var sending = browser.runtime.sendMessage({url: url, comment: comment, type: "update"});
     }
+    
     flagBox.remove();
 }
 
 function scrollEffect(event) {
     window.setTimeout(function() {
         $("#flagBox").remove();
-    }, 60);
-    
+    }, 60);   
 }
 
 var timeoutId = null;
@@ -75,7 +75,6 @@ $(document).ready(function() {
                     type: "get"
                 });
                 query.then(function(value) {
-                    console.log(value);
                     textArea.text(value.comment);
                 });
             }, 500);

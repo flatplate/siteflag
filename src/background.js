@@ -1,21 +1,16 @@
 flagDB.open(function() {});
-console.log("beginning");
-
 
 function onGetMessage(message, sender, sendResponse) {
-    console.log(message);
     if (message.type === "get") {
-        console.log("get message");
         flagDB.getSiteNote(message.url, function(comment) {
-            console.log("callback: " + comment);
             if (comment) {
                 sendResponse({url: message.url, comment: comment});
-                console.log('sksksksks');
-            }
-            else 
+            } else {
                 sendResponse({url: message.url, comment: ""});
+                // Returning an empty string rather than undefined makes it easier for frontend
+            } 
         });
-        return true;
+        return true; // Needed for sendResponse to work properly
     }
 }
 
@@ -23,8 +18,7 @@ function onUpdateMessage(message, sender, sendResponse) {
     if (message.type == "update") {
         flagDB.updateSiteNote(message.url, message.comment, function(success) {
             if (!success) {
-                console.log("Error Updating ");
-                sendResponse("Error when handling update");  
+               sendResponse("Error when handling update");  
             }
             sendResponse({"url": message.url, "comment": message.comment});
         });

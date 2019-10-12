@@ -17,34 +17,29 @@ var flagDB = (function() {
             datastore = event.target.result;
         }
 
-
         request.onupgradeneeded = function(event) {
             var db = event.target.result;
-
-            var objectStore = db.createObjectStore("site", {keyPath: "url"});
+            db.createObjectStore("site", {keyPath: "url"});
         }
     }
 
     flagDBTemp.getSiteNote = function(url, callback) {
-        console.log(url);
         if (datastore === null || url === null || !url) {
             callback(null);
             return;
         }
+
         var transaction = datastore.transaction(["site"]);
         var objectStore = transaction.objectStore("site");
-
         var request = objectStore.get(url);
 
-
         request.onsuccess = function(event) {
-            console.log(request.result.comment);
             callback(request.result.comment);
         };
     }
 
     flagDBTemp.updateSiteNote = function(url, comment, callback) {
-        if (datastore === null) callback(false);
+        if (datastore === null || url === null || !url) callback(false);
         var transaction = datastore.transaction(["site"], "readwrite");
         var objectStore = transaction.objectStore("site");
 
