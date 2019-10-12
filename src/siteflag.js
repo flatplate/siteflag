@@ -1,39 +1,24 @@
-// var boxElem = $("</div>");
-// boxElem.css("padding", "20px");
-// boxElem.css("background-color", "gray");
-// boxElem.css("position", "relative");
-// boxElem.css("height", "200px");
-// boxElem.css("width", "500px");
-// boxElem.css("right", "-20px");
-// boxElem.css("top", "-50px");
-// boxElem.text("Suck a dick.");
-// boxElem.attr("id", "flagBox");
-// boxElem.css("z-index", "-1");
-
-
-
 function closeButtonOnClick(event) {
     var flagBox = $("#flagBox");
     var url = flagBox.children("h3").text();
     var comment = $.trim($("#siteFlagTextArea").val());
 
     if (url && comment) {
-        flagDB.updateSiteNote(url, comment, function(result) {});
+        var sending = browser.runtime.sendMessage({url: url, comment: comment, type: "update"});
     }
+    
     flagBox.remove();
 }
 
 function scrollEffect(event) {
     window.setTimeout(function() {
         $("#flagBox").remove();
-    }, 60);
-    
+    }, 60);   
 }
 
 var timeoutId = null;
 
 $(document).ready(function() {
-    flagDB.open(function() {});
 
     $(window).click(function() {
         closeButtonOnClick(null);
@@ -55,23 +40,18 @@ $(document).ready(function() {
                 var pageY = e.clientY;
                 
                 var boxElem = $("<div id='flagBox'></div>")
-                //var boxElem = $(this).append("div");
                 boxElem.css("padding", "20px");
                 boxElem.css("background-color", "white");
-                //boxElem.css("border-width", "2px");
                 boxElem.css("border", "1px solid #E8E8E8");
-                //boxElem.css("border-color", "black");
                 boxElem.css("position", "fixed");
-                //boxElem.css("height", "110px");
-                //boxElem.css("width", "500px");
                 boxElem.css("left", pageX + "px");
                 boxElem.css("top", pageY + "px");
                 boxElem.css("box-shadow", "0 4px 8px 0 rgba(0,0,0,0.2)");
-                boxElem.css("tansition", "0.3s");
-                boxElem.css("padding", "10px")
+                boxElem.css("transition", "0.3s");
+                boxElem.css("padding", "10px");
                 
                 var url = $this.attr('href').split("/")[2];
-                var headerElem = $("<h3>" + $this.attr('href').split("/")[2] + "</h3>");
+                var headerElem = $("<h3>" + url + "</h3>");
                 
                 headerElem.on("click", null);
                 boxElem.append(headerElem);
@@ -85,20 +65,18 @@ $(document).ready(function() {
                 textArea.css("resize", "none");
                 textArea.css("font-family", "Arial, Helvetica, sans-serif");
                 textArea.attr("placeholder", "Type here.....");
-                /*
-                var buttonElem = $("<button id='closeButton'>x</button>");
-                buttonElem.on("click", closeButtonOnClick);
-                buttonElem.css("position", "absolute");
-                buttonElem.css("right", "10px");
-                buttonElem.css("top", "5px");
-                boxElem.append(buttonElem);
-                */
+
                 boxElem.append(textArea);
                 $("body").append(boxElem);
-                flagDB.getSiteNote(url, function(comment) {
-                    textArea.text(comment);
+
+
+                var query = browser.runtime.sendMessage({
+                    url: url, 
+                    type: "get"
                 });
-                
+                query.then(function(value) {
+                    textArea.text(value.comment);
+                });
             }, 500);
             
         }

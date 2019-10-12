@@ -2,7 +2,7 @@ var datastore = null;
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
 if (!window.indexedDB) {
-    window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+    window.alert("Your browser doesn't support a stable version of IndexedDB. Most features will not be available.");
 }
 
 var db = null;
@@ -17,21 +17,21 @@ var flagDB = (function() {
             datastore = event.target.result;
         }
 
-
         request.onupgradeneeded = function(event) {
             var db = event.target.result;
-
-            var objectStore = db.createObjectStore("site", {keyPath: "url"});
+            db.createObjectStore("site", {keyPath: "url"});
         }
     }
 
     flagDBTemp.getSiteNote = function(url, callback) {
-        if (datastore === null) callback(null);
+        if (datastore === null || url === null || !url) {
+            callback(null);
+            return;
+        }
+
         var transaction = datastore.transaction(["site"]);
         var objectStore = transaction.objectStore("site");
-
         var request = objectStore.get(url);
-
 
         request.onsuccess = function(event) {
             callback(request.result.comment);
@@ -39,7 +39,7 @@ var flagDB = (function() {
     }
 
     flagDBTemp.updateSiteNote = function(url, comment, callback) {
-        if (datastore === null) callback(false);
+        if (datastore === null || url === null || !url) callback(false);
         var transaction = datastore.transaction(["site"], "readwrite");
         var objectStore = transaction.objectStore("site");
 
